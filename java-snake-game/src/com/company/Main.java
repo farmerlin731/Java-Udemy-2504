@@ -6,16 +6,27 @@ import java.awt.*;
 
 public class Main extends JPanel {
 
+    public static final int CELL_SIZE = 20;
     public static int width = 400;
     public static int height = 400;
+    public static int row = height / CELL_SIZE;
+    public static int column = width / CELL_SIZE;
+    private Snake snake;
 
     public Main() {
+        snake = new Snake();
+    }
 
+    @Override
+    public void paintComponent(Graphics g){
+        //black bg
+        g.fillRect(0,0,width,height);
+        snake.drawSnack(g);
     }
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(width,height);
+        return new Dimension(width, height);
     }
 
     public static void main(String[] args) {
