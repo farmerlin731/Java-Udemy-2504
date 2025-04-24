@@ -2,6 +2,10 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Time;
+import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Main extends JPanel {
@@ -13,18 +17,45 @@ public class Main extends JPanel {
     public static int column = width / CELL_SIZE;
     private Snake snake;
     private Fruit fruit;
+    private Timer t;
+    private int speed = 100;
+    private static String direction ;
 
     public Main() {
         snake = new Snake();
         fruit = new Fruit();
+        t = new Timer();
+        t.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                repaint();
+            }
+        },0,speed);
+        direction = "Right";
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         //black bg
-        g.fillRect(0,0,width,height);
+        g.fillRect(0, 0, width, height);
         snake.drawSnack(g);
         fruit.drawFruit(g);
+
+        //Remove the tail & add the new head.
+        int snakeX = snake.getSnakebody().getFirst().x;
+        int snakeY = snake.getSnakebody().getFirst().y;
+
+        switch (direction){
+            case "Right":
+                snakeX += CELL_SIZE;
+                break;
+            case "Left":
+                snakeX -= CELL_SIZE;
+                break;
+        }
+        Node newNode = new Node(snakeX,snakeY);
+        snake.getSnakebody().removeLast();
+        snake.getSnakebody().addFirst(newNode);
     }
 
     @Override
