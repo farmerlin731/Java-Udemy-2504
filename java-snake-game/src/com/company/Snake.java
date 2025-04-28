@@ -21,6 +21,11 @@ public class Snake {
     public void drawSnack(Graphics g) {
         g.setColor(Color.GREEN);
         for (Node n: snakebody){
+            if(n.x < 0) n.x += Main.width;
+            if(n.x >= Main.width) n.x-=Main.width;
+            if(n.y < 0) n.y += Main.height;
+            if(n.y >= Main.height) n.y-=Main.height;
+
             g.fillOval(n.x,n.y,Main.CELL_SIZE,Main.CELL_SIZE);
         }
     }
