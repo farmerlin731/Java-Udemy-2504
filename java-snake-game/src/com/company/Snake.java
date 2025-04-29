@@ -9,6 +9,9 @@ public class Snake {
 
     public Snake() {
         snakebody = new ArrayList<>();
+        snakebody.add(new Node(140, 0));
+        snakebody.add(new Node(120, 0));
+        snakebody.add(new Node(100, 0));
         snakebody.add(new Node(80, 0));
         snakebody.add(new Node(60, 0));
         snakebody.add(new Node(40, 0));
