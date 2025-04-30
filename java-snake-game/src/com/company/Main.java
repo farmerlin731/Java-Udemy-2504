@@ -25,7 +25,6 @@ public class Main extends JPanel implements KeyListener {
     private boolean allowKeyPress;    //Set the delay-time
     private int score;
 
-
     public Main() {
         reset();
         addKeyListener(this);
@@ -65,7 +64,7 @@ public class Main extends JPanel implements KeyListener {
                 allowKeyPress = false;
                 t.cancel();
                 t.purge();
-                int response = JOptionPane.showOptionDialog(this, "Game Over! Would u like to start over?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, JOptionPane.YES_OPTION);
+                int response = JOptionPane.showOptionDialog(this, "Game Over! Your score :" + score + " \nWould u like to start over?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, JOptionPane.YES_OPTION);
                 switch (response) {
                     case JOptionPane.CLOSED_OPTION:
                     case JOptionPane.NO_OPTION:
@@ -108,7 +107,10 @@ public class Main extends JPanel implements KeyListener {
             //1.Set new fruit and draw it.
             fruit.setNewLocation(snake);
             fruit.drawFruit(g);
-            //2.Extend the size of snake.
+            //2.Extend the size of snake. -> Don't Remove.
+            //3.Add score.
+            score++;
+
         } else {
             snake.getSnakebody().removeLast();
         }
