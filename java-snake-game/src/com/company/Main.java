@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Time;
 import java.util.*;
 import java.util.Timer;
@@ -24,9 +28,11 @@ public class Main extends JPanel implements KeyListener {
     private static String direction;
     private boolean allowKeyPress;    //Set the delay-time
     private int score;
+    private int highestScore;
 
     public Main() {
         reset();
+        readHighestScore();
         addKeyListener(this);
     }
 
@@ -64,7 +70,8 @@ public class Main extends JPanel implements KeyListener {
                 allowKeyPress = false;
                 t.cancel();
                 t.purge();
-                int response = JOptionPane.showOptionDialog(this, "Game Over! Your score :" + score + " \nWould u like to start over?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, JOptionPane.YES_OPTION);
+                writeHighestScore(score);
+                int response = JOptionPane.showOptionDialog(this, "Game Over! Your score :" + score + ",\nThe highest score is "+highestScore +",\nWould u like to start over?", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, JOptionPane.YES_OPTION);
                 switch (response) {
                     case JOptionPane.CLOSED_OPTION:
                     case JOptionPane.NO_OPTION:
@@ -160,5 +167,41 @@ public class Main extends JPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public void readHighestScore() {
+        try {
+            File myObj = new File("filename.txt");
+            Scanner reader = new Scanner(myObj);
+            highestScore = reader.nextInt();
+            reader.close();
+        } catch (FileNotFoundException e) {
+            highestScore = 0;
+            try {
+                File myObj = new File("filename.txt");
+                if (myObj.createNewFile()) {
+                    System.out.println("File created." + myObj.getName());
+                }
+                FileWriter myWriter = new FileWriter(myObj.getName());
+                myWriter.write(""+0);
+            } catch (IOException ex) {
+                System.out.println("In READ, some error occurred!");
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void writeHighestScore(int score){
+        try {
+            FileWriter myWriter = new FileWriter("filename.txt");
+            if(score > highestScore){
+                highestScore = score;
+            }
+            myWriter.write(""+highestScore);
+            myWriter.close();
+        } catch (IOException ex) {
+            System.out.println("In Write, some error occurred!");
+            ex.printStackTrace();
+        }
     }
 }
