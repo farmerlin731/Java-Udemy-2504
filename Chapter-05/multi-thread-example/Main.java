@@ -23,5 +23,14 @@ public class Main {
 
         thread1.start();
         thread2.start();
+
+        //Thread Pool Usage
+        ExecutorService exeSer = Executors.newFixedThreadPool(4);
+        exeSer.execute(new PrintNum(20,'C'));
+        exeSer.execute(new PrintNum(30,'D'));
+        exeSer.execute(new PrintNum(10,'E'));
+        exeSer.execute(new PrintNum(10,'F'));
+
+        exeSer.shutdown();
     }
 }
